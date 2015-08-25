@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}View Application Page{% endblock %}
+{% block content %}
+<script type="text/javascript"><!--
+function handleDeleteApplication(form, appl_id) {
+  document.getElementById('application_action').value = "Action.delete_application";
+  document.getElementById('selected_application').value = appl_id;
+  form.submit();
+}
+
+function handleApproveApplication(form, appl_id) {
+  document.getElementById('application_action').value = "Action.approve_application";
+  document.getElementById('selected_application').value = appl_id;
+  form.submit();
+}
+
+function handleDeleteUser(form, user_id) {
+  document.getElementById('user_action').value = "Action.delete_user";
+  document.getElementById('selected_user').value = user_id;
+  form.submit();
+}
+
+//--></script>
+
+<div>
+<p>------- View All Accounts -------- </p>
+<form action="usermngr" method="post">
+  <input type="hidden" id="selected_user" name="user_id" value=""></input>
+  <input type="hidden" id="user_action" name="post_action" value=""></input>
+
+  <table>
+    <thead>
+      <tr>
+	<td><b>Nick Name</b></td>
+	<td><b>Google Mail</b></td>
+	<td><b>Delete</b></td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in all_users %}
+      <tr>
+	<td>{{ user.nickname }}</td>
+	<td>{{ user.google_user }}</td>
+	<td><input type="button" value="Delete"
+		   onclick="javascript:handleDeleteUser(this.form, '{{ user.key }}')"></input></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+</div>
+
+<p>-------- View Applications -------</p>
+<form action="usermngr" method="post">
+  <input type="hidden" id="selected_application" name="appl_id" value=""></input>
+  <input type="hidden" id="application_action" name="post_action" value=""></input>
+
+  <table>
+    <thead>
+      <tr>
+	<td><b>From</b></td>
+	<td><b>Applied User Name</b></td>
+	<td><b>Delete</b></td>
+	<td><b>Approve</b></td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appl in profile_applications %}
+      <tr>
+	<td>{{ appl.google_user }}</td>
+	<td>{{ appl.nickname }}</td>
+	<td><input type="button" value="Delete"
+		   onclick="javascript:handleDeleteApplication(this.form, '{{ appl.key }}')"></input></td>
+	<td><input type="button" value="Approve"
+		   onclick="javascript:handleApproveApplication(this.form, '{{ appl.key }}')"></input></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+{% endblock %}

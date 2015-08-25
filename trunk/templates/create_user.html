@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Create User Page{% endblock %}
+{% block content %}
+<p>Create User Page</p>
+  {% if allow_create_user %}
+  <p>  You can apply an acount. </p>
+  <div>
+    <form action="createuser" method="post">
+      <input type="hidden" name="post_action" value=""></input>
+      Name: <input type="text" name="nickname" value=""></input>
+      <input type="submit" value="Apply"></input>
+    </form>
+  </div>
+  {% else %}
+    You have applied an account: {{ existing_application.nickname }}
+  {% endif %}
+
+{% endblock %}
